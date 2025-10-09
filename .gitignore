@@ -98,3 +98,4 @@ dist
 # Build directories
 build/
 dist/
+.vercel
