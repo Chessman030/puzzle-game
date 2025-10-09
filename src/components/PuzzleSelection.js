@@ -27,7 +27,7 @@ function PuzzleSelection({ onPuzzleSelect, onBackToWelcome, globalTimer, extraLi
               onClick={() => onPuzzleSelect(1)}
               disabled={globalTimer > 0}
             >
-              <span className="cloud-text">Puzzle 1</span>
+              <span className="cloud-text">Anime</span>
             </button>
             
             <button 
@@ -35,7 +35,7 @@ function PuzzleSelection({ onPuzzleSelect, onBackToWelcome, globalTimer, extraLi
               onClick={() => onPuzzleSelect(2)}
               disabled={globalTimer > 0}
             >
-              <span className="cloud-text">Puzzle 2</span>
+              <span className="cloud-text">Marvel & DC</span>
             </button>
           </div>
           
@@ -45,7 +45,7 @@ function PuzzleSelection({ onPuzzleSelect, onBackToWelcome, globalTimer, extraLi
               onClick={() => onPuzzleSelect(3)}
               disabled={globalTimer > 0}
             >
-              <span className="cloud-text">Puzzle 3</span>
+              <span className="cloud-text">Science & Maths</span>
             </button>
             
             <button 
@@ -53,7 +53,7 @@ function PuzzleSelection({ onPuzzleSelect, onBackToWelcome, globalTimer, extraLi
               onClick={() => onPuzzleSelect(4)}
               disabled={globalTimer > 0}
             >
-              <span className="cloud-text">Puzzle 4</span>
+              <span className="cloud-text">Valorant</span>
             </button>
           </div>
         </div>

@@ -97,57 +97,170 @@ body {
 }
 
 .cloud-button {
-  background-color: white;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 50%, #e6f3ff 100%);
   border: none;
-  width: 200px;
-  height: 120px;
-  border-radius: 100px;
+  width: 220px;
+  height: 130px;
+  border-radius: 80px;
   position: relative;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s ease;
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.15),
+    0 4px 10px rgba(0, 0, 0, 0.1),
+    inset 0 2px 5px rgba(255, 255, 255, 0.8);
+  overflow: visible;
 }
 
 .cloud-button::before {
   content: '';
   position: absolute;
-  background-color: white;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fbff 50%, #ecf4ff 100%);
   border-radius: 50%;
-  top: -30px;
-  left: 20px;
-  width: 80px;
-  height: 80px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  top: -35px;
+  left: 15px;
+  width: 90px;
+  height: 90px;
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.12),
+    inset 0 2px 4px rgba(255, 255, 255, 0.9);
+  transition: all 0.4s ease;
 }
 
 .cloud-button::after {
   content: '';
   position: absolute;
-  background-color: white;
+  background: linear-gradient(135deg, #ffffff 0%, #f5fafe 50%, #e8f2ff 100%);
   border-radius: 50%;
-  top: -20px;
-  right: 30px;
-  width: 60px;
-  height: 60px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  top: -25px;
+  right: 25px;
+  width: 70px;
+  height: 70px;
+  box-shadow: 
+    0 5px 15px rgba(0, 0, 0, 0.1),
+    inset 0 1px 3px rgba(255, 255, 255, 0.9);
+  transition: all 0.4s ease;
+}
+
+/* Add more cloud puffs for realistic look */
+.cloud-1::before {
+  background: linear-gradient(135deg, #ffe0e6 0%, #fff0f2 50%, #ffeef0 100%);
+}
+
+.cloud-2::before {
+  background: linear-gradient(135deg, #e0f0ff 0%, #f0f8ff 50%, #e6f3ff 100%);
+}
+
+.cloud-3::before {
+  background: linear-gradient(135deg, #e8f5e8 0%, #f0faf0 50%, #eef7ee 100%);
+}
+
+.cloud-4::before {
+  background: linear-gradient(135deg, #fff5e0 0%, #fffaf0 50%, #fff7e6 100%);
+}
+
+.cloud-1::after {
+  background: linear-gradient(135deg, #ffccd5 0%, #ffe6ea 50%, #ffdde2 100%);
+}
+
+.cloud-2::after {
+  background: linear-gradient(135deg, #cce0ff 0%, #e6f3ff 50%, #d9ecff 100%);
+}
+
+.cloud-3::after {
+  background: linear-gradient(135deg, #d5ffd5 0%, #eafaea 50%, #e0f0e0 100%);
+}
+
+.cloud-4::after {
+  background: linear-gradient(135deg, #ffe6b3 0%, #fff2d9 50%, #ffeccc 100%);
+}
+
+.cloud-1 {
+  background: linear-gradient(135deg, #ffe8ec 0%, #fff4f6 50%, #ffeff1 100%);
+}
+
+.cloud-2 {
+  background: linear-gradient(135deg, #e8f4ff 0%, #f4f9ff 50%, #eff6ff 100%);
+}
+
+.cloud-3 {
+  background: linear-gradient(135deg, #eaf7ea 0%, #f4fbf4 50%, #eff9ef 100%);
+}
+
+.cloud-4 {
+  background: linear-gradient(135deg, #fff7e8 0%, #fffbf4 50%, #fff9ef 100%);
 }
 
 .cloud-text {
   position: relative;
   z-index: 10;
-  color: #dc143c;
-  font-size: 1.2rem;
+  color: #2c3e50;
+  font-size: 1.3rem;
   font-weight: bold;
+  text-shadow: 
+    1px 1px 2px rgba(255, 255, 255, 0.8),
+    0 0 5px rgba(255, 255, 255, 0.6);
+  transition: all 0.3s ease;
+}
+
+.cloud-1 .cloud-text {
+  color: #e74c3c;
+  text-shadow: 
+    1px 1px 2px rgba(255, 255, 255, 0.8),
+    0 0 5px rgba(231, 76, 60, 0.3);
+}
+
+.cloud-2 .cloud-text {
+  color: #3498db;
+  text-shadow: 
+    1px 1px 2px rgba(255, 255, 255, 0.8),
+    0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+.cloud-3 .cloud-text {
+  color: #27ae60;
+  text-shadow: 
+    1px 1px 2px rgba(255, 255, 255, 0.8),
+    0 0 5px rgba(39, 174, 96, 0.3);
+}
+
+.cloud-4 .cloud-text {
+  color: #f39c12;
+  text-shadow: 
+    1px 1px 2px rgba(255, 255, 255, 0.8),
+    0 0 5px rgba(243, 156, 18, 0.3);
+}
+
+.cloud-button:hover .cloud-text {
+  transform: scale(1.05);
+  text-shadow: 
+    1px 1px 3px rgba(255, 255, 255, 0.9),
+    0 0 8px rgba(255, 255, 255, 0.7);
 }
 
 .cloud-button:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.25),
+    0 8px 15px rgba(0, 0, 0, 0.15),
+    inset 0 3px 8px rgba(255, 255, 255, 0.9);
+  filter: brightness(1.1);
 }
 
-.cloud-button:hover::before,
+.cloud-button:hover::before {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.18),
+    inset 0 3px 6px rgba(255, 255, 255, 0.95);
+  filter: brightness(1.05);
+}
+
 .cloud-button:hover::after {
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.15),
+    inset 0 2px 5px rgba(255, 255, 255, 0.95);
+  filter: brightness(1.05);
 }
 
 .back-button {
@@ -388,16 +501,38 @@ body {
   border-radius: 10px;
 }
 
+/* Cloud floating animation */
+.cloud-1 {
+  animation: float1 4s ease-in-out infinite;
+}
+
+.cloud-2 {
+  animation: float2 3.5s ease-in-out infinite;
+}
+
+.cloud-3 {
+  animation: float3 4.2s ease-in-out infinite;
+}
+
+.cloud-4 {
+  animation: float4 3.8s ease-in-out infinite;
+}
+
 /* Disabled Cloud Button */
 .cloud-button.disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
   transform: none !important;
+  animation: none !important;
+  filter: grayscale(60%);
 }
 
 .cloud-button.disabled:hover {
   transform: none !important;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.15),
+    0 4px 10px rgba(0, 0, 0, 0.1) !important;
+  filter: grayscale(60%) !important;
 }
 
 /* Difficulty Badge */
@@ -748,6 +883,43 @@ body {
     opacity: 0.3; 
     transform: scale(0.9);
     background-color: #666;
+  }
+}
+
+/* Cloud floating animations */
+@keyframes float1 {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg); 
+  }
+  50% { 
+    transform: translateY(-8px) rotate(1deg); 
+  }
+}
+
+@keyframes float2 {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg); 
+  }
+  50% { 
+    transform: translateY(-6px) rotate(-1deg); 
+  }
+}
+
+@keyframes float3 {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg); 
+  }
+  50% { 
+    transform: translateY(-7px) rotate(0.5deg); 
+  }
+}
+
+@keyframes float4 {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg); 
+  }
+  50% { 
+    transform: translateY(-9px) rotate(-0.5deg); 
   }
 }
 
