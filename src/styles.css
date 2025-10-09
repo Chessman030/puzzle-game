@@ -1,0 +1,254 @@
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #dc143c;
+  font-family: 'Arial', sans-serif;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.App {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Welcome Screen Styles */
+.welcome-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #dc143c;
+}
+
+.welcome-content {
+  text-align: center;
+  color: white;
+}
+
+.welcome-title {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.get-into-puzzle-btn {
+  background-color: white;
+  color: #dc143c;
+  border: none;
+  padding: 20px 40px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.get-into-puzzle-btn:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Puzzle Selection Screen Styles */
+.puzzle-selection-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #dc143c;
+}
+
+.puzzle-selection-content {
+  text-align: center;
+  color: white;
+  width: 100%;
+  max-width: 800px;
+}
+
+.selection-title {
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.cloud-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.cloud-row {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.cloud-button {
+  background-color: white;
+  border: none;
+  width: 200px;
+  height: 120px;
+  border-radius: 100px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.cloud-button::before {
+  content: '';
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  top: -30px;
+  left: 20px;
+  width: 80px;
+  height: 80px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.cloud-button::after {
+  content: '';
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  top: -20px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.cloud-text {
+  position: relative;
+  z-index: 10;
+  color: #dc143c;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.cloud-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+}
+
+.cloud-button:hover::before,
+.cloud-button:hover::after {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.back-button {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid white;
+  padding: 10px 30px;
+  font-size: 1rem;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: white;
+  color: #dc143c;
+  transform: translateY(-2px);
+}
+
+/* Puzzle Screen Styles */
+.puzzle-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #dc143c;
+}
+
+.puzzle-content {
+  text-align: center;
+  color: white;
+  width: 100%;
+  max-width: 1000px;
+  padding: 2rem;
+}
+
+.puzzle-title {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.puzzle-area {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 3rem;
+  margin-bottom: 2rem;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.puzzle-placeholder {
+  text-align: center;
+}
+
+.puzzle-placeholder p {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  opacity: 0.9;
+}
+
+.puzzle-controls {
+  display: flex;
+  justify-content: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .welcome-title {
+    font-size: 2rem;
+  }
+  
+  .get-into-puzzle-btn {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+  }
+  
+  .selection-title {
+    font-size: 2rem;
+  }
+  
+  .cloud-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  
+  .cloud-button {
+    width: 180px;
+    height: 100px;
+  }
+  
+  .puzzle-title {
+    font-size: 2rem;
+  }
+  
+  .puzzle-area {
+    padding: 2rem 1rem;
+    min-height: 300px;
+  }
+}
