@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { generatePuzzleQuestions, getAvailableAnimes, getQuestionByAnime } from '../utils/questionParser';
+import { generatePuzzleQuestions, getAvailableTopics, getQuestionByTopic } from '../utils/questionParser';
 
 const rewards = [
   { type: "extra-life", message: "🎁 Extra Life Earned!", icon: "❤️" },
@@ -27,7 +27,7 @@ function PuzzleScreen({ puzzleNumber, onBackToSelection, onPuzzleComplete, onPuz
   const [showEliminationAnimation, setShowEliminationAnimation] = useState(false);
 
   useEffect(() => {
-    const newQuestions = generatePuzzleQuestions();
+    const newQuestions = generatePuzzleQuestions(puzzleNumber);
     setQuizQuestions(newQuestions);
   }, [puzzleNumber]);
 
@@ -71,9 +71,9 @@ function PuzzleScreen({ puzzleNumber, onBackToSelection, onPuzzleComplete, onPuz
     setShowAnimeSelection(true);
   };
 
-  const handleAnimeSelection = (selectedAnime) => {
+  const handleTopicSelection = (selectedTopic) => {
     const currentQuestion = quizQuestions[currentStage];
-    const newQuestion = getQuestionByAnime(selectedAnime, currentQuestion.difficulty);
+    const newQuestion = getQuestionByTopic(selectedTopic, currentQuestion.difficulty, puzzleNumber);
     
     if (newQuestion) {
       const updatedQuestions = [...quizQuestions];
@@ -236,19 +236,19 @@ function PuzzleScreen({ puzzleNumber, onBackToSelection, onPuzzleComplete, onPuz
           </div>
         </div>
         
-        {/* Anime Selection Modal */}
+        {/* Topic Selection Modal */}
         {showAnimeSelection && (
           <div className="anime-selection-overlay">
             <div className="anime-selection-modal">
-              <h3 className="anime-selection-title">Choose an Anime</h3>
+              <h3 className="anime-selection-title">Choose a Topic</h3>
               <div className="anime-options">
-                {getAvailableAnimes().slice(0, 3).map((anime, index) => (
+                {getAvailableTopics(puzzleNumber).slice(0, 3).map((topic, index) => (
                   <button
                     key={index}
                     className="anime-option-button"
-                    onClick={() => handleAnimeSelection(anime)}
+                    onClick={() => handleTopicSelection(topic)}
                   >
-                    {anime}
+                    {topic}
                   </button>
                 ))}
               </div>
