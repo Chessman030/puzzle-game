@@ -1,74 +1,128 @@
 import React, { useState, useEffect } from 'react';
-
-// Quiz data - 4 stages with questions and options (option 2 is always correct)
-const quizData = [
-  {
-    question: "What is the fastest land animal?",
-    options: ["Elephant", "Cheetah", "Lion", "Horse"]
-  },
-  {
-    question: "Which planet is known as the Red Planet?",
-    options: ["Venus", "Mars", "Jupiter", "Saturn"]
-  },
-  {
-    question: "What is the largest ocean on Earth?",
-    options: ["Atlantic", "Pacific", "Indian", "Arctic"]
-  },
-  {
-    question: "Which element has the chemical symbol 'O'?",
-    options: ["Gold", "Oxygen", "Silver", "Iron"]
-  }
-];
+import { generatePuzzleQuestions, getAvailableAnimes, getQuestionByAnime } from '../utils/questionParser';
 
 const rewards = [
   { type: "extra-life", message: "🎁 Extra Life Earned!", icon: "❤️" },
-  { type: "nothing", message: "� Great Job! Keep Playing!", icon: "✨" }
+  { type: "nothing", message: "💫 Great Job! Keep Playing!", icon: "✨" }
 ];
 
-function PuzzleScreen({ puzzleNumber, onBackToSelection, onPuzzleComplete }) {
-  const [currentStage, setCurrentStage] = useState(0); // 0-3 for stages 1-4
+const difficultyColors = {
+  easy: "#4CAF50",
+  medium: "#FF9800", 
+  hard: "#F44336"
+};
+
+function PuzzleScreen({ puzzleNumber, onBackToSelection, onPuzzleComplete, onPuzzleFailed }) {
+  const [currentStage, setCurrentStage] = useState(0);
   const [showReward, setShowReward] = useState(false);
   const [puzzleCompleted, setPuzzleCompleted] = useState(false);
+  const [puzzleFailed, setPuzzleFailed] = useState(false);
   const [earnedReward, setEarnedReward] = useState(null);
+  const [quizQuestions, setQuizQuestions] = useState([]);
+  
+  // Lifeline states
+  const [lifelinesUsed, setLifelinesUsed] = useState({ changeQuestion: false, eliminateOptions: false });
+  const [showAnimeSelection, setShowAnimeSelection] = useState(false);
+  const [eliminatedOptions, setEliminatedOptions] = useState([]);
+  const [showEliminationAnimation, setShowEliminationAnimation] = useState(false);
+
+  useEffect(() => {
+    const newQuestions = generatePuzzleQuestions();
+    setQuizQuestions(newQuestions);
+  }, [puzzleNumber]);
 
   const handleOptionClick = (optionIndex) => {
-    // Option 2 (index 1) is always correct
-    if (optionIndex === 1) {
+    if (quizQuestions.length === 0 || eliminatedOptions.includes(optionIndex)) return;
+    const currentQuestion = quizQuestions[currentStage];
+    
+    if (optionIndex === currentQuestion.correctIndex) {
       if (currentStage < 3) {
-        // Move to next stage immediately
         setCurrentStage(currentStage + 1);
+        setEliminatedOptions([]); // Reset eliminated options for next stage
       } else {
-        // Complete puzzle and show reward
         const randomReward = rewards[Math.floor(Math.random() * rewards.length)];
         setEarnedReward(randomReward);
         setShowReward(true);
         
-        // After 3 seconds, complete puzzle and return to selection
         setTimeout(() => {
           setShowReward(false);
           setPuzzleCompleted(true);
-          // Notify parent component about completion
           if (onPuzzleComplete) {
             onPuzzleComplete(puzzleNumber, randomReward.type === "extra-life");
           }
-          // After showing completion, return to selection
           setTimeout(() => {
             onBackToSelection();
           }, 2000);
         }, 3000);
       }
     } else {
-      // Wrong answer - could add feedback here later
-      alert("Try again! Look for the right answer.");
+      setPuzzleFailed(true);
+      if (onPuzzleFailed) {
+        onPuzzleFailed();
+      }
+      setTimeout(() => {
+        onBackToSelection();
+      }, 2000);
     }
   };
 
-  const resetPuzzle = () => {
-    setCurrentStage(0);
-    setShowReward(false);
-    setPuzzleCompleted(false);
-    setEarnedReward(null);
+  const handleChangeQuestionLifeline = () => {
+    if (lifelinesUsed.changeQuestion) return;
+    setShowAnimeSelection(true);
   };
+
+  const handleAnimeSelection = (selectedAnime) => {
+    const currentQuestion = quizQuestions[currentStage];
+    const newQuestion = getQuestionByAnime(selectedAnime, currentQuestion.difficulty);
+    
+    if (newQuestion) {
+      const updatedQuestions = [...quizQuestions];
+      updatedQuestions[currentStage] = newQuestion;
+      setQuizQuestions(updatedQuestions);
+      setLifelinesUsed(prev => ({ ...prev, changeQuestion: true }));
+      setEliminatedOptions([]); // Reset eliminated options
+    }
+    
+    setShowAnimeSelection(false);
+  };
+
+  const handleEliminateOptionsLifeline = () => {
+    if (lifelinesUsed.eliminateOptions || quizQuestions.length === 0) return;
+    
+    const currentQuestion = quizQuestions[currentStage];
+    const incorrectOptions = [0, 1, 2, 3].filter(i => i !== currentQuestion.correctIndex);
+    
+    // Randomly select 2 incorrect options to eliminate
+    const optionsToEliminate = [];
+    while (optionsToEliminate.length < 2 && incorrectOptions.length > 0) {
+      const randomIndex = Math.floor(Math.random() * incorrectOptions.length);
+      const optionIndex = incorrectOptions.splice(randomIndex, 1)[0];
+      optionsToEliminate.push(optionIndex);
+    }
+    
+    setShowEliminationAnimation(true);
+    setLifelinesUsed(prev => ({ ...prev, eliminateOptions: true }));
+    
+    // Animate elimination
+    setTimeout(() => {
+      setEliminatedOptions(optionsToEliminate);
+      setShowEliminationAnimation(false);
+    }, 1000);
+  };
+
+  if (puzzleFailed) {
+    return (
+      <div className="puzzle-screen">
+        <div className="puzzle-content">
+          <div className="failure-screen">
+            <h1 className="failure-title">❌ Puzzle {puzzleNumber} Failed!</h1>
+            <p className="failure-message">Wrong answer! Better luck next time.</p>
+            <p className="returning-message">All puzzles locked for 20 seconds...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (puzzleCompleted) {
     return (
@@ -81,19 +135,60 @@ function PuzzleScreen({ puzzleNumber, onBackToSelection, onPuzzleComplete }) {
               <div className="reward-icon">{earnedReward?.icon}</div>
               <p className="reward-message">{earnedReward?.message}</p>
             </div>
-            <p className="returning-message">Returning to puzzle selection...</p>
+            <p className="returning-message">All puzzles locked for 40 seconds...</p>
           </div>
         </div>
       </div>
     );
   }
 
-  const currentQuestion = quizData[currentStage];
+  if (quizQuestions.length === 0) {
+    return (
+      <div className="puzzle-screen">
+        <div className="puzzle-content">
+          <div className="loading-screen">
+            <h1 className="loading-title">Loading Puzzle {puzzleNumber}...</h1>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const currentQuestion = quizQuestions[currentStage];
+  const difficultyColor = difficultyColors[currentQuestion.difficulty];
 
   return (
     <div className="puzzle-screen">
       <div className="puzzle-content">
-        <h1 className="puzzle-title">Puzzle {puzzleNumber} - Stage {currentStage + 1}/4</h1>
+        <h1 className="puzzle-title">
+          Puzzle {puzzleNumber} - Stage {currentStage + 1}/4
+          <span 
+            className="difficulty-badge" 
+            style={{ backgroundColor: difficultyColor }}
+          >
+            {currentQuestion.difficulty.toUpperCase()}
+          </span>
+        </h1>
+        
+        {/* Lifeline Controls */}
+        <div className="lifeline-controls">
+          <button 
+            className={`lifeline-button ${lifelinesUsed.changeQuestion ? 'used' : ''}`}
+            onClick={handleChangeQuestionLifeline}
+            disabled={lifelinesUsed.changeQuestion}
+          >
+            <span className="lifeline-icon">🔄</span>
+            <span className="lifeline-text">Change Question</span>
+          </button>
+          <button 
+            className={`lifeline-button ${lifelinesUsed.eliminateOptions ? 'used' : ''}`}
+            onClick={handleEliminateOptionsLifeline}
+            disabled={lifelinesUsed.eliminateOptions}
+          >
+            <span className="lifeline-icon">❌</span>
+            <span className="lifeline-text">50:50</span>
+          </button>
+        </div>
         
         <div className="quiz-area">
           <div className="question-section">
@@ -103,15 +198,17 @@ function PuzzleScreen({ puzzleNumber, onBackToSelection, onPuzzleComplete }) {
           <div className="options-container">
             <div className="options-left">
               <button 
-                className="option-button"
+                className={`option-button ${eliminatedOptions.includes(0) ? 'eliminated' : ''} ${showEliminationAnimation ? 'eliminating' : ''}`}
                 onClick={() => handleOptionClick(0)}
+                disabled={eliminatedOptions.includes(0)}
               >
                 <span className="option-circle">A</span>
                 <span className="option-text">{currentQuestion.options[0]}</span>
               </button>
               <button 
-                className="option-button"
+                className={`option-button ${eliminatedOptions.includes(2) ? 'eliminated' : ''} ${showEliminationAnimation ? 'eliminating' : ''}`}
                 onClick={() => handleOptionClick(2)}
+                disabled={eliminatedOptions.includes(2)}
               >
                 <span className="option-circle">C</span>
                 <span className="option-text">{currentQuestion.options[2]}</span>
@@ -120,15 +217,17 @@ function PuzzleScreen({ puzzleNumber, onBackToSelection, onPuzzleComplete }) {
             
             <div className="options-right">
               <button 
-                className="option-button"
+                className={`option-button ${eliminatedOptions.includes(1) ? 'eliminated' : ''} ${showEliminationAnimation ? 'eliminating' : ''}`}
                 onClick={() => handleOptionClick(1)}
+                disabled={eliminatedOptions.includes(1)}
               >
                 <span className="option-circle">B</span>
                 <span className="option-text">{currentQuestion.options[1]}</span>
               </button>
               <button 
-                className="option-button"
+                className={`option-button ${eliminatedOptions.includes(3) ? 'eliminated' : ''} ${showEliminationAnimation ? 'eliminating' : ''}`}
                 onClick={() => handleOptionClick(3)}
+                disabled={eliminatedOptions.includes(3)}
               >
                 <span className="option-circle">D</span>
                 <span className="option-text">{currentQuestion.options[3]}</span>
@@ -136,6 +235,26 @@ function PuzzleScreen({ puzzleNumber, onBackToSelection, onPuzzleComplete }) {
             </div>
           </div>
         </div>
+        
+        {/* Anime Selection Modal */}
+        {showAnimeSelection && (
+          <div className="anime-selection-overlay">
+            <div className="anime-selection-modal">
+              <h3 className="anime-selection-title">Choose an Anime</h3>
+              <div className="anime-options">
+                {getAvailableAnimes().slice(0, 3).map((anime, index) => (
+                  <button
+                    key={index}
+                    className="anime-option-button"
+                    onClick={() => handleAnimeSelection(anime)}
+                  >
+                    {anime}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
         
         {showReward && (
           <div className="power-up-overlay">
@@ -146,15 +265,6 @@ function PuzzleScreen({ puzzleNumber, onBackToSelection, onPuzzleComplete }) {
             </div>
           </div>
         )}
-        
-        <div className="puzzle-controls">
-          <button 
-            className="back-button"
-            onClick={onBackToSelection}
-          >
-            Back to Puzzle Selection
-          </button>
-        </div>
       </div>
     </div>
   );

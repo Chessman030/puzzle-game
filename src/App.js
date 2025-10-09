@@ -6,17 +6,22 @@ import PuzzleScreen from './components/PuzzleScreen';
 function App() {
   const [currentScreen, setCurrentScreen] = useState('welcome');
   const [selectedPuzzle, setSelectedPuzzle] = useState(null);
-  const [puzzleTimers, setPuzzleTimers] = useState({}); // Track cooldown timers for each puzzle
+  const [globalTimer, setGlobalTimer] = useState(0); // Global timer that locks ALL puzzles
   const [extraLives, setExtraLives] = useState(0);
+
+  // Reset extra lives on app start/refresh
+  useEffect(() => {
+    setExtraLives(0);
+  }, []);
 
   const handleGetIntoPuzzle = () => {
     setCurrentScreen('puzzleSelection');
   };
 
   const handlePuzzleSelect = (puzzleNumber) => {
-    // Check if puzzle is on cooldown
-    if (puzzleTimers[puzzleNumber] && puzzleTimers[puzzleNumber] > 0) {
-      alert(`Please wait ${puzzleTimers[puzzleNumber]} seconds before playing this puzzle again!`);
+    // Check if global timer is active
+    if (globalTimer > 0) {
+      alert(`Please wait ${globalTimer} seconds before playing any puzzle!`);
       return;
     }
     setSelectedPuzzle(puzzleNumber);
@@ -29,20 +34,35 @@ function App() {
       setExtraLives(prev => prev + 1);
     }
 
-    // Start 40-second cooldown timer for this puzzle
-    setPuzzleTimers(prev => ({ ...prev, [puzzleNumber]: 40 }));
+    // Start 40-second global cooldown timer for ALL puzzles
+    setGlobalTimer(40);
 
     // Countdown timer
     const timer = setInterval(() => {
-      setPuzzleTimers(prev => {
-        const newTimers = { ...prev };
-        if (newTimers[puzzleNumber] > 1) {
-          newTimers[puzzleNumber] -= 1;
+      setGlobalTimer(prev => {
+        if (prev > 1) {
+          return prev - 1;
         } else {
-          delete newTimers[puzzleNumber];
           clearInterval(timer);
+          return 0;
         }
-        return newTimers;
+      });
+    }, 1000);
+  };
+
+  const handlePuzzleFailed = () => {
+    // Start 20-second global cooldown timer for ALL puzzles on failure
+    setGlobalTimer(20);
+
+    // Countdown timer
+    const timer = setInterval(() => {
+      setGlobalTimer(prev => {
+        if (prev > 1) {
+          return prev - 1;
+        } else {
+          clearInterval(timer);
+          return 0;
+        }
       });
     }, 1000);
   };
@@ -66,7 +86,7 @@ function App() {
         <PuzzleSelection 
           onPuzzleSelect={handlePuzzleSelect}
           onBackToWelcome={handleBackToWelcome}
-          puzzleTimers={puzzleTimers}
+          globalTimer={globalTimer}
           extraLives={extraLives}
         />
       )}
@@ -75,6 +95,7 @@ function App() {
           puzzleNumber={selectedPuzzle}
           onBackToSelection={handleBackToSelection}
           onPuzzleComplete={handlePuzzleComplete}
+          onPuzzleFailed={handlePuzzleFailed}
         />
       )}
     </div>
