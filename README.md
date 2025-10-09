@@ -2,6 +2,12 @@
 
 A React-based puzzle game with cloud-themed navigation.
 
+## 🚀 Live Demo
+
+**Play the game:** https://puzzle-game-r4l6lxc1j-raghav-s-projects-0fb50042.vercel.app
+
+**Vercel Dashboard:** https://vercel.com/raghav-s-projects-0fb50042/puzzle-game
+
 ## Features
 
 - Welcome screen with "Get Into The Puzzle" button
@@ -11,6 +17,10 @@ A React-based puzzle game with cloud-themed navigation.
 
 ## Getting Started
 
+### Play Online
+Visit the live demo: https://puzzle-game-r4l6lxc1j-raghav-s-projects-0fb50042.vercel.app
+
+### Run Locally
 1. Make sure you have Node.js installed on your system
 2. Navigate to the puzzle-game directory
 3. Install dependencies:
@@ -20,6 +30,10 @@ A React-based puzzle game with cloud-themed navigation.
 4. Start the development server:
    ```
    npm start
+   ```
+   or
+   ```
+   npm run dev
    ```
 5. Open your browser and go to `http://localhost:3000`
 
