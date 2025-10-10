@@ -1,10 +1,32 @@
 import React from 'react';
+import BloodDrop from './BloodDrop';
+import GhostCard from './GhostCard';
 
 function PuzzleSelection({ onPuzzleSelect, onBackToWelcome, globalTimer, extraLives }) {
   return (
     <div className="puzzle-selection-screen">
-      <div className="puzzle-selection-content">
-        <h1 className="selection-title">Choose Your Puzzle</h1>
+      <div className="video-background">
+        <iframe
+          src="https://www.youtube.com/embed/tRhEp0T2_HA?autoplay=1&mute=1&loop=1&playlist=tRhEp0T2_HA&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&cc_load_policy=0&playsinline=1&enablejsapi=0&quality=small&vq=small"
+          title="Background Video"
+          frameBorder="0"
+          allow="autoplay; encrypted-media"
+          allowFullScreen
+          loading="lazy"
+        ></iframe>
+      </div>
+      <div className="puzzle-selection-content content-overlay">
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <h1 className="selection-title">Choose Your Puzzle</h1>
+          <BloodDrop 
+            className="blood-drop-1" 
+            style={{ left: '15%', top: '80%' }}
+          />
+          <BloodDrop 
+            className="blood-drop-2" 
+            style={{ left: '70%', top: '75%' }}
+          />
+        </div>
         
         {extraLives > 0 && (
           <div className="extra-lives-display">
@@ -20,42 +42,31 @@ function PuzzleSelection({ onPuzzleSelect, onBackToWelcome, globalTimer, extraLi
           </div>
         )}
         
-        <div className="cloud-container">
-          <div className="cloud-row">
-            <button 
-              className={`cloud-button cloud-1 ${globalTimer > 0 ? 'disabled' : ''}`}
-              onClick={() => onPuzzleSelect(1)}
-              disabled={globalTimer > 0}
-            >
-              <span className="cloud-text">Anime</span>
-            </button>
-            
-            <button 
-              className={`cloud-button cloud-2 ${globalTimer > 0 ? 'disabled' : ''}`}
-              onClick={() => onPuzzleSelect(2)}
-              disabled={globalTimer > 0}
-            >
-              <span className="cloud-text">Marvel & DC</span>
-            </button>
-          </div>
-          
-          <div className="cloud-row">
-            <button 
-              className={`cloud-button cloud-3 ${globalTimer > 0 ? 'disabled' : ''}`}
-              onClick={() => onPuzzleSelect(3)}
-              disabled={globalTimer > 0}
-            >
-              <span className="cloud-text">Science & Maths</span>
-            </button>
-            
-            <button 
-              className={`cloud-button cloud-4 ${globalTimer > 0 ? 'disabled' : ''}`}
-              onClick={() => onPuzzleSelect(4)}
-              disabled={globalTimer > 0}
-            >
-              <span className="cloud-text">Valorant</span>
-            </button>
-          </div>
+        <div className="ghost-card-grid">
+          <GhostCard
+            puzzleName="Anime"
+            onSelect={() => onPuzzleSelect(1)}
+            index={0}
+            isDisabled={globalTimer > 0}
+          />
+          <GhostCard
+            puzzleName="Marvel & DC"
+            onSelect={() => onPuzzleSelect(2)}
+            index={1}
+            isDisabled={globalTimer > 0}
+          />
+          <GhostCard
+            puzzleName="Science & Maths"
+            onSelect={() => onPuzzleSelect(3)}
+            index={2}
+            isDisabled={globalTimer > 0}
+          />
+          <GhostCard
+            puzzleName="Valorant"
+            onSelect={() => onPuzzleSelect(4)}
+            index={3}
+            isDisabled={globalTimer > 0}
+          />
         </div>
         
         <button 

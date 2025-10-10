@@ -113,7 +113,17 @@ function PuzzleScreen({ puzzleNumber, onBackToSelection, onPuzzleComplete, onPuz
   if (puzzleFailed) {
     return (
       <div className="puzzle-screen">
-        <div className="puzzle-content">
+        <div className="video-background">
+          <iframe
+            src="https://www.youtube.com/embed/tRhEp0T2_HA?autoplay=1&mute=1&loop=1&playlist=tRhEp0T2_HA&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&cc_load_policy=0&playsinline=1&enablejsapi=0&quality=small&vq=small"
+            title="Background Video"
+            frameBorder="0"
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+            loading="lazy"
+          ></iframe>
+        </div>
+        <div className="puzzle-content content-overlay">
           <div className="failure-screen">
             <h1 className="failure-title">❌ Puzzle {puzzleNumber} Failed!</h1>
             <p className="failure-message">Wrong answer! Better luck next time.</p>
@@ -127,7 +137,17 @@ function PuzzleScreen({ puzzleNumber, onBackToSelection, onPuzzleComplete, onPuz
   if (puzzleCompleted) {
     return (
       <div className="puzzle-screen">
-        <div className="puzzle-content">
+        <div className="video-background">
+          <iframe
+            src="https://www.youtube.com/embed/tRhEp0T2_HA?autoplay=1&mute=1&loop=1&playlist=tRhEp0T2_HA&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&cc_load_policy=0&playsinline=1&enablejsapi=0&quality=small&vq=small"
+            title="Background Video"
+            frameBorder="0"
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+            loading="lazy"
+          ></iframe>
+        </div>
+        <div className="puzzle-content content-overlay">
           <div className="completion-screen">
             <h1 className="completion-title">🎉 Puzzle {puzzleNumber} Completed!</h1>
             <p className="completion-message">All 4 stages cleared!</p>
@@ -145,7 +165,17 @@ function PuzzleScreen({ puzzleNumber, onBackToSelection, onPuzzleComplete, onPuz
   if (quizQuestions.length === 0) {
     return (
       <div className="puzzle-screen">
-        <div className="puzzle-content">
+        <div className="video-background">
+          <iframe
+            src="https://www.youtube.com/embed/tRhEp0T2_HA?autoplay=1&mute=1&loop=1&playlist=tRhEp0T2_HA&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&cc_load_policy=0&playsinline=1&enablejsapi=0&quality=small&vq=small"
+            title="Background Video"
+            frameBorder="0"
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+            loading="lazy"
+          ></iframe>
+        </div>
+        <div className="puzzle-content content-overlay">
           <div className="loading-screen">
             <h1 className="loading-title">Loading Puzzle {puzzleNumber}...</h1>
           </div>
@@ -159,7 +189,17 @@ function PuzzleScreen({ puzzleNumber, onBackToSelection, onPuzzleComplete, onPuz
 
   return (
     <div className="puzzle-screen">
-      <div className="puzzle-content">
+      <div className="video-background">
+        <iframe
+          src="https://www.youtube.com/embed/tRhEp0T2_HA?autoplay=1&mute=1&loop=1&playlist=tRhEp0T2_HA&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&cc_load_policy=0&playsinline=1&enablejsapi=0&quality=small&vq=small"
+          title="Background Video"
+          frameBorder="0"
+          allow="autoplay; encrypted-media"
+          allowFullScreen
+          loading="lazy"
+        ></iframe>
+      </div>
+      <div className="puzzle-content content-overlay">
         <h1 className="puzzle-title">
           Puzzle {puzzleNumber} - Stage {currentStage + 1}/4
           <span 
